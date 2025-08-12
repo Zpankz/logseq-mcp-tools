@@ -6,7 +6,8 @@ A Model Context Protocol (MCP) server that provides AI assistants with structure
 
 ## Overview
 
-This project creates an MCP server that allows AI assistants like Claude to interact with your Logseq knowledge base. It provides tools for:
+This project creates an MCP server that allows AI assistants like Claude to interact with your Logseq knowledge base. It
+provides tools for:
 
 - Retrieving a list of all pages
 - Getting content from specific pages
@@ -17,7 +18,8 @@ This project creates an MCP server that allows AI assistants like Claude to inte
 
 ### Installing via Smithery
 
-To install Logseq Tools for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@joelhooks/logseq-mcp-tools):
+To install Logseq Tools for Claude Desktop automatically
+via [Smithery](https://smithery.ai/server/@joelhooks/logseq-mcp-tools):
 
 ```bash
 npx -y @smithery/cli install @joelhooks/logseq-mcp-tools --client claude
@@ -87,16 +89,20 @@ brew install node
 
 ```json
 {
-	"mcpServers": {
-		"logseq": {
-			"command": "npx",
-			"args": ["tsx", "/path/to/your/index.ts"]
-		}
-	}
+  "mcpServers": {
+    "logseq": {
+      "command": "npx",
+      "args": [
+        "tsx",
+        "/path/to/your/index.ts"
+      ]
+    }
+  }
 }
 ```
 
-**IMPORTANT:** Replace `/path/to/your/index.ts` with the **exact** absolute path to your index.ts file (e.g., `/Users/username/Code/logseq-mcp-tools/index.ts`)
+**IMPORTANT:** Replace `/path/to/your/index.ts` with the **exact** absolute path to your index.ts file (e.g.,
+`/Users/username/Code/logseq-mcp-tools/index.ts`)
 
 6. Save the file and restart Claude Desktop
 
@@ -129,6 +135,37 @@ When using the Claude API or CLI tools, you can add the MCP service with:
 ```
 claude mcp add "logseq" npx tsx "/path/to/index.ts"
 ```
+
+### Jetbrains Junie Setup
+
+To run this project with JetBrains Junie, follow these steps:
+
+Build the Docker image:
+
+```bash
+docker build -t logseq-mcp .
+# run in project root
+```
+
+Then add the following config to your Junie MCP configuration:
+
+```
+    "logseq": {
+      "command": "c:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--network=host",
+        "-e",
+        "LOGSEQ_TOKEN=<Your Token>",
+        "-e",
+        "LOGSEQ_HOST=host.docker.internal",
+        "logseq-mcp"
+      ]
+    }
+```
+
 
 ## Available Tools
 
@@ -283,7 +320,8 @@ To extend with new tools, add additional `server.tool()` definitions in `index.t
 
 #### Node.js Version Managers (fnm, nvm, etc.)
 
-If you're using a Node.js version manager like fnm or nvm, Claude Desktop won't be able to access the Node.js binaries properly, as it runs outside of your shell environment where the PATH is modified.
+If you're using a Node.js version manager like fnm or nvm, Claude Desktop won't be able to access the Node.js binaries
+properly, as it runs outside of your shell environment where the PATH is modified.
 
 **Solution**: Install a system-wide Node.js with Homebrew:
 
@@ -309,4 +347,5 @@ Monitor logs in real-time:
 tail -n 20 -F ~/Library/Logs/Claude/mcp*.log
 ```
 
-For more detailed debugging information, refer to the [official MCP debugging documentation](https://modelcontextprotocol.io/docs/tools/debugging).
+For more detailed debugging information, refer to
+the [official MCP debugging documentation](https://modelcontextprotocol.io/docs/tools/debugging).
