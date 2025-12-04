@@ -59,6 +59,15 @@ async function callLogseqApi(method: string, args: any[] = []): Promise<any> {
     })
 
     if (!response.ok) {
+        if (response.status === 401) {
+            throw new Error(
+                `Logseq API authentication failed (401 Unauthorized). ` +
+                `Please verify:\n` +
+                `1. The HTTP API is enabled in Logseq (Settings > Features > HTTP APIs Server)\n` +
+                `2. Your token matches the one in Logseq's "Authorization token" setting\n` +
+                `3. Logseq is running and accessible at ${LOGSEQ_API_URL}`
+            )
+        }
         throw new Error(
             `Logseq API error: ${response.status} ${response.statusText}`
         )
